@@ -29,7 +29,7 @@ function displayProducts(){
   });
 }
 
-function getUserChoice(){
+function getUserChoice() {
   // The app should then prompt users with two messages.
   // The first should ask them the ID of the product they would like to buy.
   // The second message should ask how many units of the product they would like to buy.
@@ -51,12 +51,31 @@ function getUserChoice(){
     connection.query(strSQL, function(error, result, fields){
       if (error) throw error;
       console.log('');
-      if (result[0].stock_quantity < answer.quantity){
-        console.log(`Due to a high demand for ${result[0].product_name}, we only have ${result[0].stock_quantity} left in stock.`);
-        return;
-      }
       // If not, the app should log a phrase like Insufficient quantity!, and then prevent the order from going through.
-      // console.log(result);
+      let stockQuantity = result[0].stock_quantity;
+      let productName = result[0].product_name;
+      let price = result[0].price;
+      
+      if (stockQuantity < answer.quantity){
+        let productName = result[0].product_name;
+        console.log(`Due to a high demand for ${productName}, we only have ${stockQuantity} left in stock.`);
+      } else {
+        // However, if your store does have enough of the product, you should fulfill the customer's order.
+        stockQuantity = stockQuantity - answer.quantity;
+        let totalPrice = (price * answer.quantity).toFixed(2);
+        // This means updating the SQL database to reflect the remaining quantity.
+
+        let strSQL = 'UPDATE products SET stock_quantity =' + stockQuantity + ' WHERE item_id =' + answer.item_id;
+        // console.log(strSQL);
+        connection.query(strSQL, function(error, result, fields){
+          if (error) throw error;
+          console.log('');
+        // Once the update goes through, show the customer the total cost of their purchase.
+        console.log(`You've ordered ${answer.quantity} ${productName} items. \nYour total price is $${totalPrice}. \nThank you for your stinkin' business!`);
+        });
+      }
+      endConnection();
+
     });
   });
 }
@@ -70,12 +89,6 @@ function getUserChoice(){
 
 
 
-
-// However, if your store does have enough of the product, you should fulfill the customer's order.
-
-
-// This means updating the SQL database to reflect the remaining quantity.
-// Once the update goes through, show the customer the total cost of their purchase.
 
 
 
