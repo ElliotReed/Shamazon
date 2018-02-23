@@ -1,6 +1,18 @@
 # Shamazon
 
-![alt text](/images/Pre-Order.png)
+## Shamazon is a CLI shopping program.
+
+The store opens and an order is placed.
+
+![Pre Order](/images/Pre-Order.png)
+
+Order is completed, and database reflects the changed quantity.
+
+![Post Order](/images/Post-Order.png)
+
+Not enough stock halts this order.
+
+![Failed Order](/images/Failed-Order.png)
 
 <!-- Node.js & MySQL
 
