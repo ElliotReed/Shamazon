@@ -1,5 +1,7 @@
 # Shamazon
 
+![alt text](/images/Pre-Order.png)
+
 <!-- Node.js & MySQL
 
 Overview
